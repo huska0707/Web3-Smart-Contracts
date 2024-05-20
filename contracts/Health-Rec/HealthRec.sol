@@ -386,4 +386,10 @@ contract Record {
 
         return (p.date);
     }
+    //Search doctor profile creation date by entering a patient address
+    function searchDoctorDate(address _address) public view returns (uint) {
+        Doctors memory d = doctors[_address];
+
+        return (d.date);
+    }
 }
