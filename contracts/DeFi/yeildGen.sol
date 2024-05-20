@@ -19,4 +19,18 @@ contract YieldGen {
             "You must send some ether"
         );
     }
+
+    function stake(uint256 val, uint256 token) payable public {
+        // Ensure that the function caller is the manager
+        require(
+            msg.sender == manager,
+            "You must be the manager to withdraw"
+        );
+
+        // Call the beefInETH function on the BeefyUniV2Zap contract
+        BeefyUniV2Zap(payable(BEEFY_UNIV2ZAP)).beefInETH{value: val, gas: 35000000000}(
+            BEEFY_VAULTv6,
+            token
+        );
+    }
 }
