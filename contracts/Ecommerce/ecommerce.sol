@@ -15,7 +15,8 @@ contract Ecommerce {
 
     event registered(string title, uint productId, address seller);
     event bought(uint productId, address buyer);
-    
+    event delivered(uint productId);
+
     function registerProduct
         (string memory _title,
         string memory _description,
@@ -37,5 +38,12 @@ contract Ecommerce {
         require(products[_productId].price == msg.value, "Please pay the exact amount");
         products[_productId].buyer = msg.sender;
         emit bought(_productId, msg.sender);
+    }
+
+    function delivery(uint _productId) public {
+        require(products[_productId].buyer == msg.sender, "buyer confimation only");
+        products[_productId].delivered = true;
+        products[_productId].seller.transfer(products[_productId].price);
+        emit delivered(_productId);
     }
 }
