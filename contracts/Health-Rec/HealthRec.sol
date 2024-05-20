@@ -148,4 +148,25 @@ contract Record {
         d.major = _major;
         d.addr = msg.sender;
     }
+    
+    //Retrieve appointment details from appointment page and store the details into the blockchain
+    function setAppointment(address  _addr, string memory _date, string memory _time, string memory _diagnosis, string memory _prescription, string memory _description, string memory _status) public {
+        require(isDoctor[msg.sender]);
+        Appointments storage a = appointments[_addr];
+        
+        a.doctoraddr = msg.sender;
+        a.patientaddr = _addr;
+        a.date = _date;
+        a.time = _time;
+        a.diagnosis = _diagnosis;
+        a.prescription = _prescription; 
+        a.description = _description;
+        a.status = _status;
+        a.creationDate = block.timestamp;
+
+        appointmentList.push(_addr);
+        appointmentCount++;
+        AppointmentPerPatient[_addr]++;
+    }
+    
 }
