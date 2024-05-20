@@ -93,4 +93,24 @@ contract Record {
         isApproved[msg.sender][msg.sender] = true;
         patientCount++;
     }
+    
+    // //Allows patient to edit their existing record
+    function editDetails(string memory _ic, string memory _name, string memory _phone, string memory _gender, string memory _dob, string memory _height, string memory _weight, string memory _houseaddr, string memory _bloodgroup, string memory _allergies, string memory _medication) public {
+        require(isPatient[msg.sender]);
+        Patients storage p = patients[msg.sender];
+        
+        p.ic = _ic;
+        p.name = _name;
+        p.phone = _phone;
+        p.gender = _gender;
+        p.dob = _dob;
+        p.height = _height; 
+        p.weight = _weight;
+        p.houseaddr = _houseaddr;
+        p.bloodgroup = _bloodgroup;
+        p.allergies = _allergies;
+        p.medication = _medication;
+
+        p.addr = msg.sender;    
+    }
 }
