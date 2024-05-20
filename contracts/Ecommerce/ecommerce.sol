@@ -14,6 +14,7 @@ contract Ecommerce {
     uint counter = 0;
 
     event registered(string title, uint productId, address seller);
+    event bought(uint productId, address buyer);
     
     function registerProduct
         (string memory _title,
@@ -31,4 +32,10 @@ contract Ecommerce {
             counter++;
             emit registered(_title,tempProduct.productId, msg.sender);
         } 
+    
+    function buy(uint _productId) payable public{
+        require(products[_productId].price == msg.value, "Please pay the exact amount");
+        products[_productId].buyer = msg.sender;
+        emit bought(_productId, msg.sender);
+    }
 }
