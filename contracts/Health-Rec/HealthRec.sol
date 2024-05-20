@@ -413,4 +413,8 @@ contract Record {
     function getAppointmentCount() public view returns (uint256) {
         return appointmentCount;
     }
+    //Retrieve permission granted count
+    function getPermissionGrantedCount() public view returns (uint256) {
+        return permissionGrantedCount;
+    }
 }
