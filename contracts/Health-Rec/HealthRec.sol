@@ -250,4 +250,9 @@ contract Record {
         isApproved[msg.sender][_address] = false;
         return true;
     }
+
+    //Retrieve a list of all patients address
+    function getPatients() public view returns (address[] memory) {
+        return patientList;
+    }
 }
