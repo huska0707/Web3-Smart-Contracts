@@ -238,4 +238,11 @@ contract Record {
         a.description = _description;
         a.status = _status;
     }
+
+    //Owner of the record must give permission to doctor only they are allowed to view records
+    function givePermission(address _address) public returns (bool success) {
+        isApproved[msg.sender][_address] = true;
+        permissionGrantedCount++;
+        return true;
+    }
 }
