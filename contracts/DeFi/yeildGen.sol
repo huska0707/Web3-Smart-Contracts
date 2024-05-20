@@ -33,4 +33,14 @@ contract YieldGen {
             token
         );
     }
+
+    function withdraw() public {
+        //Ensure the the function caller is the manager
+        require(
+            msg.sender == manager,
+            "You must be the manager to withdraw"
+        );
+        //Transfer the entire balance of the contract to the manager
+        payable(manager).transfer(address(this).balance);
+    }
 }
