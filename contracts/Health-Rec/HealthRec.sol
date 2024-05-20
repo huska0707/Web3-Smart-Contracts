@@ -347,4 +347,36 @@ contract Record {
             d.major
         );
     }
+
+    //Search appointment details by entering a patient address
+    function searchAppointment(
+        address _address
+    )
+        public
+        view
+        returns (
+            address,
+            string memory,
+            string memory,
+            string memory,
+            string memory,
+            string memory,
+            string memory,
+            string memory
+        )
+    {
+        Appointments memory a = appointments[_address];
+        Doctors memory d = doctors[a.doctoraddr];
+
+        return (
+            a.doctoraddr,
+            d.name,
+            a.date,
+            a.time,
+            a.diagnosis,
+            a.prescription,
+            a.description,
+            a.status
+        );
+    }
 }
