@@ -12,8 +12,13 @@ contract BankingSystem {
 
         balanceOf[msg.sender] -= _amount;
 
-        (bool sent,) = msg.sender.call{value: _amount}("sent")
+        (bool sent,) = msg.sender.call{value: _amount}("sent");
 
-        require(sent, "Failed to Complete")
+        require(sent, "Failed to Complete");
+    }
+
+    function transferAmt(address payable _address, uint _amount) public {
+        require(balanceOf[msg.sender] >= _amount, "Insufficient Funds");
+        _address.transfer(_amount);
     }
 }
