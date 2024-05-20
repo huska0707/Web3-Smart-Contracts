@@ -254,5 +254,10 @@ contract Record {
     //Retrieve a list of all patients address
     function getPatients() public view returns (address[] memory) {
         return patientList;
+    } 
+    
+    //Retrieve a list of all doctors address
+    function getDoctors() public view returns (address[] memory) {
+        return doctorList;
     }
 }
