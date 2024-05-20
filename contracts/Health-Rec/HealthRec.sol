@@ -316,4 +316,35 @@ contract Record {
             p.emergencyContact
         );
     }
+
+    //Search doctor details by entering a doctor address (Only doctor will be allowed to access)
+    function searchDoctor(
+        address _address
+    )
+        public
+        view
+        returns (
+            string memory,
+            string memory,
+            string memory,
+            string memory,
+            string memory,
+            string memory,
+            string memory
+        )
+    {
+        require(isDoctor[_address]);
+
+        Doctors memory d = doctors[_address];
+
+        return (
+            d.ic,
+            d.name,
+            d.phone,
+            d.gender,
+            d.dob,
+            d.qualification,
+            d.major
+        );
+    }
 }
