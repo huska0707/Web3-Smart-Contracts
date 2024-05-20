@@ -379,4 +379,11 @@ contract Record {
             a.status
         );
     }
+
+    //Search patient record creation date by entering a patient address
+    function searchRecordDate(address _address) public view returns (uint) {
+        Patients memory p = patients[_address];
+
+        return (p.date);
+    }
 }
