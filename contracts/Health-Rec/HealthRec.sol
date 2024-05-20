@@ -2,8 +2,7 @@
 pragma solidity ^0.8.0;
 
 contract Record {
-
-    struct Patients{
+    struct Patients {
         string ic;
         string name;
         string phone;
@@ -21,7 +20,7 @@ contract Record {
         uint date;
     }
 
-    struct Doctors{
+    struct Doctors {
         string ic;
         string name;
         string phone;
@@ -33,7 +32,7 @@ contract Record {
         uint date;
     }
 
-    struct Appointments{
+    struct Appointments {
         address doctoraddr;
         address patientaddr;
         string date;
@@ -55,7 +54,7 @@ contract Record {
     mapping(address => Doctors) doctors;
     mapping(address => Appointments) appointments;
 
-    mapping(address=>mapping(address=>bool)) isApproved;
+    mapping(address => mapping(address => bool)) isApproved;
     mapping(address => bool) isPatient;
     mapping(address => bool) isDoctor;
     mapping(address => uint) AppointmentPerPatient;
@@ -70,16 +69,28 @@ contract Record {
     }
 
     //Retrieve patient details from user sign up page and store the details into the blockchain
-    function setDetails(string memory _ic, string memory _name, string memory _phone, string memory _gender, string memory _dob, string memory _height, string memory _weight, string memory _houseaddr, string memory _bloodgroup, string memory _allergies, string memory _medication) public {
+    function setDetails(
+        string memory _ic,
+        string memory _name,
+        string memory _phone,
+        string memory _gender,
+        string memory _dob,
+        string memory _height,
+        string memory _weight,
+        string memory _houseaddr,
+        string memory _bloodgroup,
+        string memory _allergies,
+        string memory _medication
+    ) public {
         require(!isPatient[msg.sender]);
         Patients storage p = patients[msg.sender];
-        
+
         p.ic = _ic;
         p.name = _name;
         p.phone = _phone;
         p.gender = _gender;
         p.dob = _dob;
-        p.height = _height; 
+        p.height = _height;
         p.weight = _weight;
         p.houseaddr = _houseaddr;
         p.bloodgroup = _bloodgroup;
@@ -87,38 +98,58 @@ contract Record {
         p.medication = _medication;
         p.addr = msg.sender;
         p.date = block.timestamp;
-        
+
         patientList.push(msg.sender);
         isPatient[msg.sender] = true;
         isApproved[msg.sender][msg.sender] = true;
         patientCount++;
     }
-    
+
     // //Allows patient to edit their existing record
-    function editDetails(string memory _ic, string memory _name, string memory _phone, string memory _gender, string memory _dob, string memory _height, string memory _weight, string memory _houseaddr, string memory _bloodgroup, string memory _allergies, string memory _medication) public {
+    function editDetails(
+        string memory _ic,
+        string memory _name,
+        string memory _phone,
+        string memory _gender,
+        string memory _dob,
+        string memory _height,
+        string memory _weight,
+        string memory _houseaddr,
+        string memory _bloodgroup,
+        string memory _allergies,
+        string memory _medication
+    ) public {
         require(isPatient[msg.sender]);
         Patients storage p = patients[msg.sender];
-        
+
         p.ic = _ic;
         p.name = _name;
         p.phone = _phone;
         p.gender = _gender;
         p.dob = _dob;
-        p.height = _height; 
+        p.height = _height;
         p.weight = _weight;
         p.houseaddr = _houseaddr;
         p.bloodgroup = _bloodgroup;
         p.allergies = _allergies;
         p.medication = _medication;
 
-        p.addr = msg.sender;    
+        p.addr = msg.sender;
     }
 
     //Retrieve patient details from doctor registration page and store the details into the blockchain
-    function setDoctor(string memory _ic, string memory _name, string memory _phone, string memory _gender, string memory _dob, string memory _qualification, string memory _major) public {
+    function setDoctor(
+        string memory _ic,
+        string memory _name,
+        string memory _phone,
+        string memory _gender,
+        string memory _dob,
+        string memory _qualification,
+        string memory _major
+    ) public {
         require(!isDoctor[msg.sender]);
         Doctors storage d = doctors[msg.sender];
-        
+
         d.ic = _ic;
         d.name = _name;
         d.phone = _phone;
@@ -128,17 +159,25 @@ contract Record {
         d.major = _major;
         d.addr = msg.sender;
         d.date = block.timestamp;
-        
+
         doctorList.push(msg.sender);
         isDoctor[msg.sender] = true;
         doctorCount++;
     }
 
     //Allows doctors to edit their existing profile
-    function editDoctor(string memory _ic, string memory _name, string memory _phone, string memory _gender, string memory _dob, string memory _qualification, string memory _major) public {
+    function editDoctor(
+        string memory _ic,
+        string memory _name,
+        string memory _phone,
+        string memory _gender,
+        string memory _dob,
+        string memory _qualification,
+        string memory _major
+    ) public {
         require(isDoctor[msg.sender]);
         Doctors storage d = doctors[msg.sender];
-        
+
         d.ic = _ic;
         d.name = _name;
         d.phone = _phone;
@@ -148,18 +187,26 @@ contract Record {
         d.major = _major;
         d.addr = msg.sender;
     }
-    
+
     //Retrieve appointment details from appointment page and store the details into the blockchain
-    function setAppointment(address  _addr, string memory _date, string memory _time, string memory _diagnosis, string memory _prescription, string memory _description, string memory _status) public {
+    function setAppointment(
+        address _addr,
+        string memory _date,
+        string memory _time,
+        string memory _diagnosis,
+        string memory _prescription,
+        string memory _description,
+        string memory _status
+    ) public {
         require(isDoctor[msg.sender]);
         Appointments storage a = appointments[_addr];
-        
+
         a.doctoraddr = msg.sender;
         a.patientaddr = _addr;
         a.date = _date;
         a.time = _time;
         a.diagnosis = _diagnosis;
-        a.prescription = _prescription; 
+        a.prescription = _prescription;
         a.description = _description;
         a.status = _status;
         a.creationDate = block.timestamp;
@@ -168,5 +215,27 @@ contract Record {
         appointmentCount++;
         AppointmentPerPatient[_addr]++;
     }
-    
+
+    //Retrieve appointment details from appointment page and store the details into the blockchain
+    function updateAppointment(
+        address _addr,
+        string memory _date,
+        string memory _time,
+        string memory _diagnosis,
+        string memory _prescription,
+        string memory _description,
+        string memory _status
+    ) public {
+        require(isDoctor[msg.sender]);
+        Appointments storage a = appointments[_addr];
+
+        a.doctoraddr = msg.sender;
+        a.patientaddr = _addr;
+        a.date = _date;
+        a.time = _time;
+        a.diagnosis = _diagnosis;
+        a.prescription = _prescription;
+        a.description = _description;
+        a.status = _status;
+    }
 }
