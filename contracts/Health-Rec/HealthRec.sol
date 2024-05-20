@@ -404,4 +404,13 @@ contract Record {
     function getPatientCount() public view returns (uint256) {
         return patientCount;
     }
+    //Retrieve doctor count
+    function getDoctorCount() public view returns (uint256) {
+        return doctorCount;
+    }
+
+    //Retrieve appointment count
+    function getAppointmentCount() public view returns (uint256) {
+        return appointmentCount;
+    }
 }
