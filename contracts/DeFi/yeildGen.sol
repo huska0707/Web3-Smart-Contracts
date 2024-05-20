@@ -12,4 +12,11 @@ contract YieldGen {
     constructor() {
         manager = msg.sender;
     }
+
+    function addMoney() payable public {
+        require(
+            msg.value > 0 * 1 ether,
+            "You must send some ether"
+        );
+    }
 }
