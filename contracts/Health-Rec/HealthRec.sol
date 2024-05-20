@@ -287,4 +287,33 @@ contract Record {
 
         return (p.ic, p.name, p.phone, p.gender, p.dob, p.height, p.weight);
     }
+
+    //Search patient details by entering a patient address (Only record owner or doctor with permission will be allowed to access)
+    function searchPatientMedical(
+        address _address
+    )
+        public
+        view
+        returns (
+            string memory,
+            string memory,
+            string memory,
+            string memory,
+            string memory,
+            string memory
+        )
+    {
+        require(isApproved[_address][msg.sender]);
+
+        Patients memory p = patients[_address];
+
+        return (
+            p.houseaddr,
+            p.bloodgroup,
+            p.allergies,
+            p.medication,
+            p.emergencyName,
+            p.emergencyContact
+        );
+    }
 }
