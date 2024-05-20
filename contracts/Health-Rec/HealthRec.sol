@@ -392,4 +392,12 @@ contract Record {
 
         return (d.date);
     }
+    //Search appointment creation date by entering a patient address
+    function searchAppointmentDate(
+        address _address
+    ) public view returns (uint) {
+        Appointments memory a = appointments[_address];
+
+        return (a.creationDate);
+    }
 }
