@@ -6,4 +6,14 @@ contract BankingSystem {
     function deposit() public payable {
         balanceOf[msg.sender] += msg.value;
     }
+
+    function withdraw(uint _amount) public {
+        require(balanceOf[msg.sender] >= _amount, "Insufficent Funds");
+
+        balanceOf[msg.sender] -= _amount;
+
+        (bool sent,) = msg.sender.call{value: _amount}("sent")
+
+        require(sent, "Failed to Complete")
+    }
 }
