@@ -417,4 +417,12 @@ contract Record {
     function getPermissionGrantedCount() public view returns (uint256) {
         return permissionGrantedCount;
     }
+
+    //Retrieve permission granted count
+    function getAppointmentPerPatient(
+        address _address
+    ) public view returns (uint256) {
+        return AppointmentPerPatient[_address];
+    }
+
 }
