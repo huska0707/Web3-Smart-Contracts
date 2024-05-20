@@ -400,4 +400,8 @@ contract Record {
 
         return (a.creationDate);
     }
+    //Retrieve patient count
+    function getPatientCount() public view returns (uint256) {
+        return patientCount;
+    }
 }
