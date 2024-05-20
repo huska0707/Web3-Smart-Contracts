@@ -133,4 +133,19 @@ contract Record {
         isDoctor[msg.sender] = true;
         doctorCount++;
     }
+
+    //Allows doctors to edit their existing profile
+    function editDoctor(string memory _ic, string memory _name, string memory _phone, string memory _gender, string memory _dob, string memory _qualification, string memory _major) public {
+        require(isDoctor[msg.sender]);
+        Doctors storage d = doctors[msg.sender];
+        
+        d.ic = _ic;
+        d.name = _name;
+        d.phone = _phone;
+        d.gender = _gender;
+        d.dob = _dob;
+        d.qualification = _qualification;
+        d.major = _major;
+        d.addr = msg.sender;
+    }
 }
