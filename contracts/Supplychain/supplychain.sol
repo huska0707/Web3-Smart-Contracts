@@ -35,4 +35,8 @@ contract Supplychain {
     function getProduct(uint256 ind) public view returns(S_Item memory) {
         return items[ind];
     }
+
+    function getProductArray() public view returns (S_Item[] memory) {
+        return productArr;
+    }
 }
