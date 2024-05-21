@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.9
+pragma solidity ^0.8.9;
 pragma experimental ABIEncoderV2;
 
 contract Supplychain {
@@ -22,5 +22,17 @@ contract Supplychain {
         Created,
         Paid,
         Delivered
+    }
+
+    function createItem(string memeory _identifier, uint256 _priceInWei) public {
+        items[index]._priceInWei = _priceInWei;
+        items[index]._identifier = _identifier;
+        items[index]._index = index;
+        productArr.push(items[index]);
+        index++;
+    }
+
+    function getProduct(uint256 ind) public view returns(S_Item memory) {
+
     }
 }
