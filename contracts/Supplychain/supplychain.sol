@@ -39,4 +39,9 @@ contract Supplychain {
     function getProductArray() public view returns (S_Item[] memory) {
         return productArr;
     }
+
+    function Stats(uint256 ind, uint256 amount) public {
+        productData[ind]._count += 1;
+        productDat[ind]._total += amount;
+    }
 }
