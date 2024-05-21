@@ -45,7 +45,6 @@ contract Record {
     }
 
     address public owner;
-
     address[] public patientList;
     address[] public doctorList;
     address[] public appointmentList;
@@ -96,6 +95,8 @@ contract Record {
         p.bloodgroup = _bloodgroup;
         p.allergies = _allergies;
         p.medication = _medication;
+        // p.emergencyName = _emergencyName;
+        // p.emergencyContact = _emergencyContact;
         p.addr = msg.sender;
         p.date = block.timestamp;
 
@@ -133,7 +134,8 @@ contract Record {
         p.bloodgroup = _bloodgroup;
         p.allergies = _allergies;
         p.medication = _medication;
-
+        // p.emergencyName = _emergencyName;
+        // p.emergencyContact = _emergencyContact;
         p.addr = msg.sender;
     }
 
@@ -245,6 +247,7 @@ contract Record {
         permissionGrantedCount++;
         return true;
     }
+
     //Owner of the record can take away the permission granted to doctors to view records
     function RevokePermission(address _address) public returns (bool success) {
         isApproved[msg.sender][_address] = false;
@@ -260,6 +263,7 @@ contract Record {
     function getDoctors() public view returns (address[] memory) {
         return doctorList;
     }
+
     //Retrieve a list of all appointments address
     function getAppointments() public view returns (address[] memory) {
         return appointmentList;
@@ -386,12 +390,14 @@ contract Record {
 
         return (p.date);
     }
+
     //Search doctor profile creation date by entering a patient address
     function searchDoctorDate(address _address) public view returns (uint) {
         Doctors memory d = doctors[_address];
 
         return (d.date);
     }
+
     //Search appointment creation date by entering a patient address
     function searchAppointmentDate(
         address _address
@@ -400,10 +406,12 @@ contract Record {
 
         return (a.creationDate);
     }
+
     //Retrieve patient count
     function getPatientCount() public view returns (uint256) {
         return patientCount;
     }
+
     //Retrieve doctor count
     function getDoctorCount() public view returns (uint256) {
         return doctorCount;
@@ -413,6 +421,7 @@ contract Record {
     function getAppointmentCount() public view returns (uint256) {
         return appointmentCount;
     }
+
     //Retrieve permission granted count
     function getPermissionGrantedCount() public view returns (uint256) {
         return permissionGrantedCount;
@@ -424,5 +433,4 @@ contract Record {
     ) public view returns (uint256) {
         return AppointmentPerPatient[_address];
     }
-
 }
