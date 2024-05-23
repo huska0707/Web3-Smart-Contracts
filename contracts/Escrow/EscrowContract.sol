@@ -1,8 +1,13 @@
 pragma solidity ^0.8.9;
 
 contract Escrow {
-
-    enum Status {OPEN, PENDING, DELIVERY, CONFIRMED, COMPLETED}
+    enum Status {
+        OPEN,
+        PENDING,
+        DELIVERY,
+        CONFIRMED,
+        COMPLETED
+    }
 
     address public buyer;
     address public seller;
@@ -27,5 +32,31 @@ contract Escrow {
         totalItems = 0;
     }
 
-    event Action(uint256 itemId, string description, Status status, address indexed function_caller);
+    event Action(
+        uint256 itemId,
+        string description,
+        Status status,
+        address indexed function_caller
+    );
+
+    function createNewItem(uint256 _price) external payable {
+        require(msg.sender != arbiter, "Arbiter cannot create/sell item");
+        require(msg.value >= arbiter_fee, "Arbiter fee not met");
+        pay(arbiter, arbiter_fee);
+
+        uint256 _itemId = totalItems + 1;
+        totalItems++;
+        ItemStruct storage item = items[_itemId];
+
+        item.itemId = _itemId;
+        item.price = _price;
+        item.owner = msg.sender;
+        item.status = Status.OPEN;
+
+        ownerOf[_itemId] = msg.sender;
+        priceOf[_itemId] = _price;
+        seller = msg.sender;
+
+        emit Action(_itemId, "New Item Created", Status.OPEN, msg.sender);
+    }
 }
