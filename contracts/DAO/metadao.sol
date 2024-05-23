@@ -141,5 +141,13 @@ contract MetaDAO {
 
     function getContent(
         bytes32 _contentId
-    ) public view returns (string memory) {}
+    ) public view returns (string memory) {
+        return contentRegistry[_contentId];
+    }
+
+    function getCategory(
+        bytes32 _categoryId
+    ) public view returns (string memory) {
+        return categoryRegistry[_categoryId];
+    }
 }
