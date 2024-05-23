@@ -39,7 +39,20 @@ contract MetaDAO {
         bytes32 _parentId,
         string calldata _contentUri,
         bytes32 _categoryId
-    ) external {}
+    ) external {
+        address _owner = msg.sender;
+        bytes32 _contentId = keccak256(abi.encode(_contentUri));
+        bytes32 _postId = keccak256(
+            abi.encodePacked(_owner, _parentId, _contentId)
+        );
+        contentRegistry[_contentId] = _contentUri;
+        postRegistry[_postId].postOwner = _owner;
+        postRegistry[_postId].parentPost = _parentId;
+        postRegistry[_postId].contentId = _contentId;
+        postRegistry[_postId].categoryId = _categoryId;
+        emit ContentAdded(_contentId, _contentUri);
+        emit PostCreated(_postId, _owner, _parentId, _contentId, _categoryId);
+    }
 
     function voteUp(bytes32 _postId, uint8 _reputationAdded) external {}
 
