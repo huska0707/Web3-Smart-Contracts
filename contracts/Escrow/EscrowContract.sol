@@ -112,5 +112,8 @@ contract Escrow {
         emit Action(itemId, "COMPLETED", Status.COMPLETED, msg.sender);
     }
 
-    function pay(address payee, uint256 amount) internal {}
+    function pay(address payee, uint256 amount) internal {
+        (bool callSuccess, ) = payable(payee).call{value: amount}("");
+        require(callSuccess, "Call Failed");
+    }
 }
