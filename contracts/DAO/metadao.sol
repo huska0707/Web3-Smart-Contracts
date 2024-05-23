@@ -54,8 +54,38 @@ contract MetaDAO {
         emit PostCreated(_postId, _owner, _parentId, _contentId, _categoryId);
     }
 
-    function voteUp(bytes32 _postId, uint8 _reputationAdded) external {}
-
+    function voteUp(bytes32 _postId, uint8 _reputationAdded) external {
+        address _voter = msg.sender;
+        bytes32 _category = postRegistry[_postId].categoryId;
+        address _contributor = postRegistry[_postId].postOwner;
+        require(
+            postRegistry[_postId].postOwner != _voter,
+            "you cannot vote your own posts"
+        );
+        require(
+            voteRegistry[_voter][_postId] == false,
+            "Sender already voted in this post"
+        );
+        require(
+            validateReputationChange(_voter, _category, _reputationAdded) ==
+                true,
+            "This address cannot add this amount of reputation points"
+        );
+        postRegistry[_postId].votes += 1;
+        reputationRegistry[_contributor][_category] += _reputationAdded;
+        voteRegistry[_voter][_postId] = true;
+        emit Voted(
+            _postId,
+            _contributor,
+            _voter,
+            reputationRegistry[_contributor][_category],
+            reputationRegistry[_voter][_category],
+            postRegistry[_postId].votes,
+            true,
+            _reputationAdded
+        );
+    }
+    
     function voteDown(bytes32 _postId, uint8 _reputationTaken) external {}
 
     function validateReputationChange(
