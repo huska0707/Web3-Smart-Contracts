@@ -96,7 +96,21 @@ contract Escrow {
         emit Action(itemId, "CONFIRMED", Status.CONFIRMED, msg.sender);
     }
 
-    function paySeller(uint256 itemId) external {}
+    function paySeller(uint256 itemId) external {
+        require(msg.sender == arbiter, "Only arbiter can pay the seller");
+        require(
+            items[itemId].status == Status.CONFIRMED,
+            "Item has not been delivered yet"
+        );
+        uint256 amt = items[itemId].price;
+        require(balance >= amt, "Funds not available");
+        pay(seller, amt);
+        balance -= amt;
+
+        items[itemId].status = Status.COMPLETED;
+
+        emit Action(itemId, "COMPLETED", Status.COMPLETED, msg.sender);
+    }
 
     function pay(address payee, uint256 amount) internal {}
 }
