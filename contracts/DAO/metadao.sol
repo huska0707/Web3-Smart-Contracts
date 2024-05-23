@@ -122,7 +122,16 @@ contract MetaDAO {
         address _sender,
         bytes32 _categoryId,
         uint8 _reputationAdded
-    ) internal view returns (bool _result) {}
+    ) internal view returns (bool _result) {
+        uint80 _reputation = reputationRegistry[_sender][_categoryId];
+        if (_reputation < 2) {
+            _reputationAdded == 1 ? _result = true : _result = false;
+        } else {
+            2 ** _reputationAdded <= _reputation
+                ? _result = true
+                : _result = false;
+        }
+    }
 
     function addCategory(string calldata _category) external {}
 
