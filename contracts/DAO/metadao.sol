@@ -150,4 +150,23 @@ contract MetaDAO {
     ) public view returns (string memory) {
         return categoryRegistry[_categoryId];
     }
+
+    function getReputation(
+        address _address,
+        bytes32 _categoryID
+    ) public view returns (uint80) {
+        return reputationRegistry[_address][_categoryID];
+    }
+
+    function getPost(
+        bytes32 _postId
+    ) public view returns (address, bytes32, bytes32, int72, bytes32) {
+        return (
+            postRegistry[_postId].postOwner,
+            postRegistry[_postId].parentPost,
+            postRegistry[_postId].contentId,
+            postRegistry[_postId].votes,
+            postRegistry[_postId].categoryId
+        );
+    }
 }
