@@ -133,7 +133,11 @@ contract MetaDAO {
         }
     }
 
-    function addCategory(string calldata _category) external {}
+    function addCategory(string calldata _category) external {
+        bytes32 _categoryId = keccak256(abi.encode(_category));
+        categoryRegistry[_categoryId] = _category;
+        emit CategoryCreated(_categoryId, _category);
+    }
 
     function getContent(
         bytes32 _contentId
