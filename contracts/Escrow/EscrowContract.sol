@@ -59,4 +59,28 @@ contract Escrow {
 
         emit Action(_itemId, "New Item Created", Status.OPEN, msg.sender);
     }
+    
+    function orderItem(uint256 itemId) external payable {
+        require(msg.sender != ownerOf[itemId], "Owner cannot buy his own item");
+        require(msg.sender != arbiter, "Arbiter cannot order the item");
+        require(
+            msg.value >= priceOf[itemId],
+            "Pay the correct price of the item"
+        );
+
+        items[itemId].status = Status.PENDING;
+
+        buyer = msg.sender;
+
+        //money for the item sent to the contract to be held till delivery
+        balance += msg.value;
+
+        emit Action(itemId, "Item Ordered", Status.PENDING, msg.sender);
+    }
+
+    function performDelivery(uint256 itemId) external {}
+
+    function paySeller(uint256 itemId) external {}
+
+    function pay(address payee, uint256 amount) internal {}
 }
