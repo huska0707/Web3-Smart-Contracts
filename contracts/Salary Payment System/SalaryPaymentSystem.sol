@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 contract SalaryPaymentSystem {
@@ -22,5 +23,21 @@ contract SalaryPaymentSystem {
         require(msg.sender == owner, "you are not owner");
     }
 
-    function depositMoney() public payable onlyOwner {}
+    function depositMoney() public payable onlyOwner {
+        require(msg.value > 0, "check balance once");
+    }
+
+    function registerEmployee(
+        address _employeeAdd,
+        uint _salary
+    ) public onlyOwner {
+        require(_salary > 0, "Enter the salary of employee");
+        require(
+            salaryInfo[_employeeAdd] == 0,
+            "You can't Register employee twice"
+        );
+        company_Wallet[id] = Employee(_employeeAdd, _salary);
+        salaryInfo[_employeeAdd] = _salary;
+        ++id;
+    }
 }
